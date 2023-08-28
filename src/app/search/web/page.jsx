@@ -1,5 +1,8 @@
+import WebSearchResults from "@/components/WebSearchResults";
 import Link from "next/link";
+import { resolve } from "styled-jsx/css";
 export default async function WebSearchPage({ searchParams }) {
+  await new Promise((resolve) => setTimeout(resolve,5000));
   const response = await fetch(
     `https://www.googleapis.com/customsearch/v1?key=${process.env.API_KEY}&cx=${process.env.CONTEXT_KEY}&q=${searchParams.searchTerm}`
   );
@@ -13,18 +16,13 @@ export default async function WebSearchPage({ searchParams }) {
       <div className="flex flex-col justify-center items-center pt-10">
         <h1 className="text-3xl mb-4">No results found</h1>
         <p className="text-lg">
-        Try searching for something else or go back to the homepage {" "}
-        <Link className="text-blue-500" href="/">
-         Home
-        </Link>
+          Try searching for something else or go back to the homepage{" "}
+          <Link className="text-blue-500" href="/">
+            Home
+          </Link>
         </p>
       </div>
     );
   }
-  return (
-    <>
-      {results &&
-        results.map((result, index) => <h1 key={index}>{result.title}</h1>)}
-    </>
-  );
+  return <>{results && <WebSearchResults results={data} />}</>;
 }
